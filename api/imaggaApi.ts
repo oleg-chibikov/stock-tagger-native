@@ -34,6 +34,9 @@ function shuffleArray(array: any[]) {
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
   // const { imaggaKey, imaggaSecret } = getEnvVars();
   // const apiKey = imaggaKey;
@@ -53,6 +56,7 @@ async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
   // });
 
   // return response.data.result.tags;
+  await delay(1000);
   shuffleArray(tags);
 
   return tags.slice(0, 50).map((tag) => ({

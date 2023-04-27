@@ -43,12 +43,16 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
           </TouchableOpacity>
         ))}
       </ScrollView>
-      <Button
-        title="Get tags"
-        onPress={() =>
-          onImagesSelected(selectedImages.length ? selectedImages : [images[0]])
-        }
-      />
+      {images.length > 0 && (
+        <Button
+          title="Get tags"
+          onPress={() =>
+            onImagesSelected(
+              selectedImages.length ? selectedImages : [images[0]]
+            )
+          }
+        />
+      )}
     </>
   );
 };
@@ -57,7 +61,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 16,
+    paddingVertical: 16,
   },
   image: {
     width: 100,
