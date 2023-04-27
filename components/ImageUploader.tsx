@@ -58,14 +58,20 @@ const ImageUploader: FunctionComponent = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="Select Images" onPress={pickImages} />
-      <ImageSelector
-        images={images}
-        onImagesSelected={(assets) => {
-          getTags(assets);
-        }}
-      />
-      {loading ? <ActivityIndicator size="large" /> : <Tags tags={tags} />}
+      {loading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <>
+          <Button title="Select Images" onPress={pickImages} />
+          <ImageSelector
+            images={images}
+            onImagesSelected={(assets) => {
+              getTags(assets);
+            }}
+          />
+          <Tags tags={tags} />
+        </>
+      )}
     </View>
   );
 };
