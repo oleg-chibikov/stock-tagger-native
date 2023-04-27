@@ -1,5 +1,3 @@
-import axios from 'axios';
-import getEnvVars from '../environment';
 import { ImagePickerAsset } from 'expo-image-picker';
 
 interface Tag {
@@ -30,10 +28,10 @@ async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
   // return response.data.result.tags;
   return new Array(50).fill({
     confidence: 1,
-    tag:{
-    en: 'stub',
-  },
-});
+    tag: {
+      en: 'stub',
+    },
+  });
 }
 
-export {uploadImageAndGetTags}
+export { uploadImageAndGetTags };

@@ -1,8 +1,15 @@
-import React, { FunctionComponent, useState } from 'react';
-import { Button, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ImagePickerAsset } from 'expo-image-picker';
-import getEnvVars from '../environment';
+import React, { FunctionComponent, useState } from 'react';
+import {
+  Button,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { uploadImageAndGetTags } from '../api/imaggaApi';
 
 interface ImageSelectorProps {
@@ -10,7 +17,10 @@ interface ImageSelectorProps {
   onImagesSelected: (images: ImagePickerAsset[]) => void;
 }
 
-const ImageSelector: FunctionComponent<ImageSelectorProps> = ({ images, onImagesSelected }) => {
+const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
+  images,
+  onImagesSelected,
+}) => {
   const [selectedImages, setSelectedImages] = useState<ImagePickerAsset[]>([]);
 
   function toggleImageSelection(image: ImagePickerAsset) {
@@ -24,9 +34,14 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({ images, onImages
   return (
     <ScrollView contentContainerStyle={styles.imageContainer}>
       {images.map((image, index) => (
-        <TouchableOpacity key={index} onPress={() => toggleImageSelection(image)}>
+        <TouchableOpacity
+          key={index}
+          onPress={() => toggleImageSelection(image)}
+        >
           <Image source={{ uri: image.uri }} style={styles.image} />
-          {selectedImages.includes(image) && <Text style={styles.checkmark}>✓</Text>}
+          {selectedImages.includes(image) && (
+            <Text style={styles.checkmark}>✓</Text>
+          )}
         </TouchableOpacity>
       ))}
       <Button title="Done" onPress={() => onImagesSelected(selectedImages)} />
@@ -42,9 +57,7 @@ interface Tag {
 }
 
 async function uploadImages(images: ImagePickerAsset[]): Promise<Tag[][]> {
-  const responses = await Promise.all(
-    images.map(uploadImageAndGetTags)
-  );
+  const responses = await Promise.all(images.map(uploadImageAndGetTags));
 
   const data = await Promise.all(responses.map((response) => response));
   return data.map((item) => item);
@@ -59,7 +72,7 @@ const ImageUploader: FunctionComponent = () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsMultipleSelection: true,
-      base64: true
+      base64: true,
     });
 
     if (!result.canceled) {
@@ -75,7 +88,13 @@ const ImageUploader: FunctionComponent = () => {
   return (
     <View style={styles.container}>
       <Button title="Select Images" onPress={pickImages} />
-      <ImageSelector images={images} onImagesSelected={(a)=>{setSelectedImages(a); getTags()}} />
+      <ImageSelector
+        images={images}
+        onImagesSelected={(a) => {
+          setSelectedImages(a);
+          getTags();
+        }}
+      />
       {tags.map((imageTags, index) => (
         <View key={index}>
           <Text>Image {index + 1}:</Text>
