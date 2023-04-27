@@ -3,6 +3,7 @@ import { ImagePickerAsset } from 'expo-image-picker';
 import React, { FunctionComponent, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, View } from 'react-native';
 import { uploadImageAndGetTags } from '../api/imaggaApi';
+import { downloadCSV } from '../helpers/csvHelper';
 import { ImageSelector } from './ImageSelector';
 import { Tag, Tags } from './Tags';
 
@@ -14,8 +15,6 @@ async function uploadImages(images: ImagePickerAsset[]): Promise<Tag[][]> {
 
   return tags;
 }
-
-const csvSplitter = ',';
 
 function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
   // Extract unique tags from the 'en' field
@@ -29,55 +28,6 @@ function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
     updatedTags.push('AI');
   }
   return updatedTags;
-}
-
-function createCSVData(
-  images: ImagePickerAsset[],
-  tags: string[],
-  title: string,
-  category: number
-): string {
-  const rows = images.map((image) => {
-    return {
-      Filename: image.fileName || '',
-      Title: title,
-      Keywords: tags
-        .map((x) => (x.indexOf(csvSplitter) >= 0 ? `\"${x}\"` : x))
-        .join(csvSplitter),
-      Category: category.toString(),
-      Releases: '',
-    };
-  });
-
-  // Create CSV data
-  const header = Object.keys(rows[0]).join(csvSplitter);
-  const csvData =
-    header +
-    '\n' +
-    rows.map((row) => Object.values(row).join(csvSplitter)).join('\n');
-
-  return csvData;
-}
-
-function downloadCSV(
-  images: ImagePickerAsset[],
-  tags: string[],
-  title: string,
-  category: number
-) {
-  const csvData = createCSVData(images, tags, title, category);
-
-  // Create a Blob from the CSV data
-  const blob = new Blob([csvData], { type: 'text/csv' });
-  // Create a downloadable link for the Blob
-  const url = URL.createObjectURL(blob);
-  // Create an anchor element and simulate a click to download the file
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = title + '.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
 }
 
 const ImageUploader: FunctionComponent = () => {
