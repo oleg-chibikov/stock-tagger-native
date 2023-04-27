@@ -6,7 +6,34 @@ interface Tag {
     en: string;
   };
 }
-
+const tags = [
+  'nature',
+  'landscape',
+  'cityscape',
+  'portrait',
+  'wildlife',
+  'architecture',
+  'food',
+  'fashion',
+  'travel',
+  'sports',
+  'abstract',
+  'macro',
+  'black and white',
+  'street',
+  'night',
+  'beach',
+  'sunset',
+  'sunrise',
+  'mountains',
+  'forest',
+];
+function shuffleArray(array: any[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
 async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
   // const { imaggaKey, imaggaSecret } = getEnvVars();
   // const apiKey = imaggaKey;
@@ -26,12 +53,14 @@ async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
   // });
 
   // return response.data.result.tags;
-  return new Array(50).fill({
+  shuffleArray(tags);
+
+  return tags.slice(0, 50).map((tag) => ({
     confidence: 1,
     tag: {
-      en: 'stub',
+      en: tag,
     },
-  });
+  }));
 }
 
 export { uploadImageAndGetTags };
