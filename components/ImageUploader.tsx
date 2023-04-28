@@ -4,8 +4,9 @@ import { ActivityIndicator, Button, StyleSheet, View } from 'react-native';
 import { uploadImageAndGetTags } from '../api/imaggaApi';
 import { downloadCSV } from '../helpers/csvHelper';
 import { fileToUri, ImageWithData } from '../helpers/fileHelper';
+import { getUniqueTags, Tag } from '../helpers/tagHelper';
 import { ImageSelector } from './ImageSelector';
-import { Tag, Tags } from './Tags';
+import { Tags } from './Tags';
 
 async function uploadImages(imageData: ImageWithData[]): Promise<Tag[][]> {
   const responses = await Promise.all(imageData.map(uploadImageAndGetTags));
@@ -35,20 +36,6 @@ const pickImages = async (): Promise<ImageWithData[] | null> => {
 
   return null;
 };
-
-function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
-  // Extract unique tags from the 'en' field
-  const uniqueTags = Array.from(
-    new Set(tags.flatMap((tags) => tags.map((tag) => tag.tag.en)))
-  );
-  const updatedTags = uniqueTags.slice(0, isAi ? 47 : 50); // not more than 50 images
-  if (isAi) {
-    updatedTags.push('Generative AI');
-    updatedTags.push('Generative');
-    updatedTags.push('AI');
-  }
-  return updatedTags;
-}
 
 const ImageUploader: FunctionComponent = () => {
   const [images, setImages] = useState<ImageWithData[]>([]);

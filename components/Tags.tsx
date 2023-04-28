@@ -1,13 +1,7 @@
 import { useTheme } from '@react-navigation/native';
 import { FunctionComponent } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-
-interface Tag {
-  confidence: number;
-  tag: {
-    en: string;
-  };
-}
+import { Tag } from '../helpers/tagHelper';
 
 interface TagsProps {
   tags: Tag[][];
@@ -30,6 +24,7 @@ const Tags: FunctionComponent<TagsProps> = ({ tags }) => {
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   imageContainer: {
     flexDirection: 'row',
@@ -38,5 +33,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export type { Tag };
 export { Tags };
