@@ -1,7 +1,7 @@
-import { ImagePickerAsset } from 'expo-image-picker';
+import { ImageWithData } from './fileHelper';
 
 function createCSVData(
-  images: ImagePickerAsset[],
+  images: ImageWithData[],
   tags: string[],
   title: string,
   category: number
@@ -9,11 +9,9 @@ function createCSVData(
   const csvSplitter = ',';
   const rows = images.map((image) => {
     return {
-      Filename: image.fileName || '',
+      Filename: image.name,
       Title: title,
-      Keywords: tags
-        .map((x) => (x.indexOf(csvSplitter) >= 0 ? `\"${x}\"` : x))
-        .join(csvSplitter),
+      Keywords: `\"${tags.join(csvSplitter)}\"`,
       Category: category.toString(),
       Releases: '',
     };
@@ -30,7 +28,7 @@ function createCSVData(
 }
 
 function downloadCSV(
-  images: ImagePickerAsset[],
+  images: ImageWithData[],
   tags: string[],
   title: string,
   category: number

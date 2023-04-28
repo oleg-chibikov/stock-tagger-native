@@ -1,20 +1,40 @@
-import * as ImagePicker from 'expo-image-picker';
-import { ImagePickerAsset } from 'expo-image-picker';
+import * as DocumentPicker from 'expo-document-picker';
 import React, { FunctionComponent, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, View } from 'react-native';
 import { uploadImageAndGetTags } from '../api/imaggaApi';
 import { downloadCSV } from '../helpers/csvHelper';
+import { fileToUri, ImageWithData } from '../helpers/fileHelper';
 import { ImageSelector } from './ImageSelector';
 import { Tag, Tags } from './Tags';
 
-async function uploadImages(images: ImagePickerAsset[]): Promise<Tag[][]> {
-  const responses = await Promise.all(images.map(uploadImageAndGetTags));
+async function uploadImages(imageData: ImageWithData[]): Promise<Tag[][]> {
+  const responses = await Promise.all(imageData.map(uploadImageAndGetTags));
 
-  const data = await Promise.all(responses.map((response) => response));
-  const tags = data.map((item) => item);
-
-  return tags;
+  return await Promise.all(responses.map((response) => response));
 }
+
+const getImageData = async (file: File): Promise<ImageWithData> => {
+  const uri = await fileToUri(file);
+  return { name: file.name, uri: uri };
+};
+
+const pickImages = async (): Promise<ImageWithData[] | null> => {
+  let result = await DocumentPicker.getDocumentAsync({
+    type: 'image/*',
+    multiple: true,
+    copyToCacheDirectory: true,
+  });
+
+  if (result.type !== 'cancel') {
+    return result.output
+      ? await Promise.all(Array.from(result.output).map(getImageData))
+      : result.file
+      ? [await getImageData(result.file)]
+      : null;
+  }
+
+  return null;
+};
 
 function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
   // Extract unique tags from the 'en' field
@@ -31,23 +51,30 @@ function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
 }
 
 const ImageUploader: FunctionComponent = () => {
-  const [images, setImages] = useState<ImagePickerAsset[]>([]);
+  const [images, setImages] = useState<ImageWithData[]>([]);
   const [tags, setTags] = useState<Tag[][]>([]);
   const [loading, setLoading] = useState(false);
 
-  async function pickImages() {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsMultipleSelection: true,
-      base64: true,
-    });
-
-    if (!result.canceled) {
-      setImages(result.assets as ImagePickerAsset[]);
+  const updateImages = async () => {
+    const images = await pickImages();
+    if (images) {
+      setImages(images);
     }
-  }
+  };
 
-  async function getTags(assets: ImagePicker.ImagePickerAsset[]) {
+  // async function pickImages() {
+  //   const result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsMultipleSelection: true,
+  //     base64: true,
+  //   });
+
+  //   if (!result.canceled) {
+  //     setImages(result.assets as Uint8Array[]);
+  //   }
+  // }
+
+  async function getTags(assets: ImageWithData[]) {
     setLoading(true);
     const tags = await uploadImages(assets);
     setTags(tags);
@@ -62,7 +89,7 @@ const ImageUploader: FunctionComponent = () => {
         <ActivityIndicator size="large" />
       ) : (
         <>
-          <Button title="Select Images" onPress={pickImages} />
+          <Button title="Select Images" onPress={updateImages} />
           <ImageSelector
             images={images}
             onImagesSelected={(assets) => {

@@ -1,4 +1,6 @@
-import { ImagePickerAsset } from 'expo-image-picker';
+import axios from 'axios';
+import getEnvVars from '../environment';
+import { ImageWithData } from '../helpers/fileHelper';
 
 interface Tag {
   confidence: number;
@@ -37,34 +39,39 @@ function shuffleArray(array: any[]) {
 function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-async function uploadImageAndGetTags(image: ImagePickerAsset): Promise<Tag[]> {
-  // const { imaggaKey, imaggaSecret } = getEnvVars();
-  // const apiKey = imaggaKey;
-  // const apiSecret = imaggaSecret;
+async function uploadImageAndGetTags(imageData: ImageWithData): Promise<Tag[]> {
+  const { imaggaKey, imaggaSecret } = getEnvVars();
+  const apiKey = imaggaKey;
+  const apiSecret = imaggaSecret;
 
-  // const formData = new FormData();
-  // formData.append('image_base64', image.base64!);
+  const formData = new FormData();
+  const base64 = imageData.uri.split(',')[1];
+  formData.append('image_base64', base64);
 
-  // const response = await axios.post('https://api.imagga.com/v2/tags', formData, {
-  //   auth: {
-  //     username: apiKey,
-  //     password: apiSecret,
+  const response = await axios.post(
+    'https://api.imagga.com/v2/tags',
+    formData,
+    {
+      auth: {
+        username: apiKey,
+        password: apiSecret,
+      },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
+
+  return response.data.result.tags;
+  // await delay(1000);
+  // shuffleArray(tags);
+
+  // return tags.slice(0, 50).map((tag) => ({
+  //   confidence: 1,
+  //   tag: {
+  //     en: tag,
   //   },
-  //   headers: {
-  //     'Content-Type': 'multipart/form-data',
-  //   },
-  // });
-
-  // return response.data.result.tags;
-  await delay(1000);
-  shuffleArray(tags);
-
-  return tags.slice(0, 50).map((tag) => ({
-    confidence: 1,
-    tag: {
-      en: tag,
-    },
-  }));
+  // }));
 }
 
 export { uploadImageAndGetTags };

@@ -1,4 +1,3 @@
-import { ImagePickerAsset } from 'expo-image-picker';
 import { FunctionComponent, useState } from 'react';
 import {
   Button,
@@ -8,19 +7,20 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import { ImageWithData } from '../helpers/fileHelper';
 
 interface ImageSelectorProps {
-  images: ImagePickerAsset[];
-  onImagesSelected: (images: ImagePickerAsset[]) => void;
+  images: ImageWithData[];
+  onImagesSelected: (images: ImageWithData[]) => void;
 }
 
 const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
   images,
   onImagesSelected,
 }) => {
-  const [selectedImages, setSelectedImages] = useState<ImagePickerAsset[]>([]);
+  const [selectedImages, setSelectedImages] = useState<ImageWithData[]>([]);
 
-  function toggleImageSelection(image: ImagePickerAsset) {
+  function toggleImageSelection(image: ImageWithData) {
     if (selectedImages.includes(image)) {
       setSelectedImages(selectedImages.filter((img) => img !== image));
     } else {
@@ -31,17 +31,19 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
   return (
     <>
       <ScrollView contentContainerStyle={styles.imageContainer}>
-        {images.map((image, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => toggleImageSelection(image)}
-          >
-            <Image source={{ uri: image.uri }} style={styles.image} />
-            {selectedImages.includes(image) && (
-              <Text style={styles.checkmark}>✓</Text>
-            )}
-          </TouchableOpacity>
-        ))}
+        {images.map((image, index) => {
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() => toggleImageSelection(image)}
+            >
+              <Image source={{ uri: image.uri }} style={styles.image} />
+              {selectedImages.includes(image) && (
+                <Text style={styles.checkmark}>✓</Text>
+              )}
+            </TouchableOpacity>
+          );
+        })}
       </ScrollView>
       {images.length > 0 && (
         <Button
