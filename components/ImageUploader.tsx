@@ -43,7 +43,7 @@ const pickImages = async (): Promise<ImageWithData[] | null> => {
 
 const ImageUploader: FunctionComponent = () => {
   const [images, setImages] = useState<ImageWithData[]>([]);
-  const [tags, setTags] = useState<Tag[][]>([]);
+  const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<Record<string, number>>(
     {}
@@ -83,8 +83,8 @@ const ImageUploader: FunctionComponent = () => {
       uploadImagesToBackendPromise,
     ]);
     const tags = await uploadImagesAndGetTagsPromise;
-    setTags(tags);
     const uniqueTags = getUniqueTags(tags, true);
+    setTags(uniqueTags);
     downloadCSV(images, uniqueTags, 'tags', 1);
     setLoading(false);
   }
@@ -119,6 +119,8 @@ const ImageUploader: FunctionComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 32,
     height: '100%',
   },

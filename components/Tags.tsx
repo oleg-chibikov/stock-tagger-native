@@ -1,22 +1,18 @@
 import { FunctionComponent } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
-import { Tag } from '../helpers/tagHelper';
 import { Text, View } from './Themed';
 
 interface TagsProps {
-  tags: Tag[][];
+  tags: string[];
 }
 
 const Tags: FunctionComponent<TagsProps> = ({ tags }) => (
   <ScrollView contentContainerStyle={styles.imageContainer}>
-    {tags.map((imageTags, index) => (
-      <View key={index}>
-        <Text>Image {index + 1}:</Text>
-        {imageTags.map((tag, index) => (
-          <Text key={index}>{tag.tag.en}</Text>
-        ))}
-      </View>
-    ))}
+    <View>
+      {tags.map((tag, index) => (
+        <Text key={index}>{tag}</Text>
+      ))}
+    </View>
   </ScrollView>
 );
 

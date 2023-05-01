@@ -1,3 +1,5 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '@react-navigation/native';
 import { FunctionComponent, useState } from 'react';
 import {
   Button,
@@ -6,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import { Popable } from 'react-native-popable';
 import { ImageWithData } from '../helpers/fileHelper';
 import { Text } from './Themed';
 
@@ -19,6 +22,7 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
   onImagesSelected,
 }) => {
   const [selectedImages, setSelectedImages] = useState<ImageWithData[]>([]);
+  const theme = useTheme();
 
   function toggleImageSelection(image: ImageWithData) {
     if (selectedImages.includes(image)) {
@@ -48,15 +52,33 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
           );
         })}
       </ScrollView>
-      {images.length > 0 && (
-        <Button
-          title="Process images"
-          onPress={() =>
-            onImagesSelected(
-              selectedImages.length ? selectedImages : [images[0]]
-            )
-          }
-        />
+      {images.length && (
+        <>
+          <Popable
+            action="hover"
+            content="Select the images for which you'd like to get the tags. Tags will be
+            applied to all the images regardless of the selection and will be
+            submitted to the stock. Without the selection only the first image
+            will be used for tag retrieval."
+            position="bottom"
+          >
+            {' '}
+            <Ionicons
+              style={styles.info}
+              name="information-circle-outline"
+              size={50}
+              color={theme.colors.notification}
+            />
+          </Popable>
+          <Button
+            title="Process images"
+            onPress={() =>
+              onImagesSelected(
+                selectedImages.length ? selectedImages : [images[0]]
+              )
+            }
+          />
+        </>
       )}
     </>
   );
@@ -89,6 +111,9 @@ const styles = StyleSheet.create({
     height: 24,
     textAlign: 'center',
     lineHeight: 24,
+  },
+  info: {
+    paddingBottom: 16,
   },
 });
 
