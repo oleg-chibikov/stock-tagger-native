@@ -9,6 +9,7 @@ const fileToUri = async (file: File): Promise<string> => {
 interface ImageWithData {
   name: string;
   uri: string;
+  file: File;
 }
 
 export type { ImageWithData };

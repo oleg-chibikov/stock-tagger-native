@@ -8,37 +8,41 @@ interface Tag {
     en: string;
   };
 }
-const tags = [
-  'nature',
-  'landscape',
-  'cityscape',
-  'portrait',
-  'wildlife',
-  'architecture',
-  'food',
-  'fashion',
-  'travel',
-  'sports',
-  'abstract',
-  'macro',
-  'black and white',
-  'street',
-  'night',
-  'beach',
-  'sunset',
-  'sunrise',
-  'mountains',
-  'forest',
-];
-function shuffleArray(array: any[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-}
-function delay(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+
+// const tags = [
+//   'nature',
+//   'landscape',
+//   'cityscape',
+//   'portrait',
+//   'wildlife',
+//   'architecture',
+//   'food',
+//   'fashion',
+//   'travel',
+//   'sports',
+//   'abstract',
+//   'macro',
+//   'black and white',
+//   'street',
+//   'night',
+//   'beach',
+//   'sunset',
+//   'sunrise',
+//   'mountains',
+//   'forest',
+// ];
+
+// function shuffleArray(array: any[]) {
+//   for (let i = array.length - 1; i > 0; i--) {
+//     const j = Math.floor(Math.random() * (i + 1));
+//     [array[i], array[j]] = [array[j], array[i]];
+//   }
+// }
+
+// function delay(ms: number) {
+//   return new Promise((resolve) => setTimeout(resolve, ms));
+// }
+
 async function uploadImageAndGetTags(imageData: ImageWithData): Promise<Tag[]> {
   const { imaggaKey, imaggaSecret } = getEnvVars();
   const apiKey = imaggaKey;

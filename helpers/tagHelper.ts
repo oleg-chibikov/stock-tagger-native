@@ -3,7 +3,8 @@ function getUniqueTags(tags: Tag[][], isAi: boolean): string[] {
   const uniqueTags = Array.from(
     new Set(tags.flatMap((tags) => tags.map((tag) => tag.tag.en)))
   );
-  const updatedTags = uniqueTags.slice(0, isAi ? 47 : 50); // not more than 50 images
+  const maxTags = 49;
+  const updatedTags = uniqueTags.slice(0, isAi ? maxTags - 3 : maxTags); // not more than 50 images
   if (isAi) {
     updatedTags.push('Generative AI');
     updatedTags.push('Generative');

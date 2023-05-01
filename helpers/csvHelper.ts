@@ -11,7 +11,7 @@ function createCSVData(
     return {
       Filename: image.name,
       Title: title,
-      Keywords: `\"${tags.join(csvSplitter)}\"`,
+      Keywords: `"${tags.join(csvSplitter)}"`,
       Category: category.toString(),
       Releases: '',
     };

@@ -4,10 +4,10 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Text,
   TouchableOpacity,
 } from 'react-native';
 import { ImageWithData } from '../helpers/fileHelper';
+import { Text } from './Themed';
 
 interface ImageSelectorProps {
   images: ImageWithData[];
