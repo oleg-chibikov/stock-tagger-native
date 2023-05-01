@@ -95,7 +95,7 @@ const ImageUploader: FunctionComponent = () => {
         <>
           <ActivityIndicator size="large" />
           {Object.keys(uploadProgress).map((imageName) => (
-            <View key={imageName}>
+            <View key={imageName} style={{ margin: 10 }}>
               <Text>{imageName}</Text>
               <Progress.Bar progress={uploadProgress[imageName]} />
             </View>
@@ -119,8 +119,9 @@ const ImageUploader: FunctionComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 8,
   },
 });
 
