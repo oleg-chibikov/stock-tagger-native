@@ -82,8 +82,8 @@ const ImageUploader: FunctionComponent = () => {
       uploadImagesAndGetTagsPromise,
       uploadImagesToBackendPromise,
     ]);
-    const tags = await uploadImagesAndGetTagsPromise;
-    const uniqueTags = getUniqueTags(tags, true);
+    const retrievedTags = await uploadImagesAndGetTagsPromise;
+    const uniqueTags = getUniqueTags(retrievedTags, tags, true);
     setTags(uniqueTags);
     downloadCSV(images, uniqueTags, 'tags', 1);
     setLoading(false);
@@ -104,13 +104,17 @@ const ImageUploader: FunctionComponent = () => {
       ) : (
         <>
           <Button title="Select Images" onPress={updateImages} />
-          <ImageSelector
-            images={images}
-            onImagesSelected={(assets) => {
-              getTags(assets);
-            }}
-          />
-          <Tags tags={tags} />
+          {images.length && (
+            <>
+              <ImageSelector
+                images={images}
+                onImagesSelected={(assets) => {
+                  getTags(assets);
+                }}
+              />
+              <Tags tags={tags} />{' '}
+            </>
+          )}
         </>
       )}
     </View>

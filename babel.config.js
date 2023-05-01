@@ -4,8 +4,9 @@ module.exports = function (api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
-      // eslint-disable-next-line no-undef
-      require.resolve('expo-router/babel'),
+      'expo-router/babel',
+      '@babel/plugin-proposal-export-namespace-from',
+      'react-native-reanimated/plugin',
     ],
   };
 };
