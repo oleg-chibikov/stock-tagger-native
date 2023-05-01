@@ -6,18 +6,11 @@ import {
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { SplashScreen } from 'expo-router';
-import { useEffect } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
 import { ImageUploader } from '../components/ImageUploader';
 
-export { ErrorBoundary } from 'expo-router';
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)',
-};
-
-export default function RootLayout() {
+const RootLayout: FunctionComponent = () => {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     ...FontAwesome.font,
@@ -35,16 +28,17 @@ export default function RootLayout() {
       {loaded && <RootLayoutNav />}
     </>
   );
-}
+};
 
-function RootLayoutNav() {
+const RootLayoutNav: FunctionComponent = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <ImageUploader />
-      </ThemeProvider>
-    </>
+    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+      <ImageUploader />
+    </ThemeProvider>
   );
-}
+};
+
+export { ErrorBoundary } from 'expo-router';
+export default RootLayout;

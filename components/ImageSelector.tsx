@@ -30,7 +30,10 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
 
   return (
     <>
-      <ScrollView contentContainerStyle={styles.imageContainer}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.imageContainer}
+      >
         {images.map((image, index) => {
           return (
             <TouchableOpacity
@@ -47,7 +50,7 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
       </ScrollView>
       {images.length > 0 && (
         <Button
-          title="Get tags"
+          title="Process images"
           onPress={() =>
             onImagesSelected(
               selectedImages.length ? selectedImages : [images[0]]
@@ -60,10 +63,15 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
 };
 
 const styles = StyleSheet.create({
+  scrollView: {
+    flexGrow: 0,
+  },
   imageContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     width: 100,
@@ -75,6 +83,7 @@ const styles = StyleSheet.create({
     top: 4,
     right: 4,
     backgroundColor: 'white',
+    color: 'black',
     borderRadius: 12,
     width: 24,
     height: 24,

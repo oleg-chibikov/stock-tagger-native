@@ -119,9 +119,8 @@ const ImageUploader: FunctionComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 8,
+    padding: 32,
+    height: '100%',
   },
 });
 
