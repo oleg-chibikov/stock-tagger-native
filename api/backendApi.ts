@@ -2,14 +2,16 @@ import axios from 'axios';
 import getEnvVars from '../environment';
 import { ImageWithData } from '../helpers/fileHelper';
 
-async function uploadImageToBackend(
-  imageData: ImageWithData,
-  onProgress: (transferred: number, total: number) => void
+async function uploadImagesToBackend(
+  imageData: ImageWithData[],
+  onProgress: (fileName: string, transferred: number, total: number) => void
 ): Promise<boolean> {
   const { backendHost, backendPort } = getEnvVars();
   const url = `${backendHost}:${backendPort}/images/upload`;
   const formData = new FormData();
-  formData.append('image', imageData.file, imageData.name);
+  imageData.forEach((image) => {
+    formData.append('images', image.file, image.name);
+  });
 
   // Create a new EventSource to listen for SSE from the /events route
   const eventSource = new EventSource(
@@ -19,7 +21,7 @@ async function uploadImageToBackend(
   // Set up an event listener for the progress event
   eventSource.addEventListener('progress', (event) => {
     const data = JSON.parse(event.data);
-    onProgress(data.transferred, data.total);
+    onProgress(data.fileName, data.transferred, data.total);
   });
 
   try {
@@ -45,4 +47,4 @@ async function uploadImageToBackend(
   }
 }
 
-export { uploadImageToBackend };
+export { uploadImagesToBackend };

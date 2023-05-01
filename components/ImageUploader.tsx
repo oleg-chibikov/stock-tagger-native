@@ -1,8 +1,8 @@
 import * as DocumentPicker from 'expo-document-picker';
 import React, { FunctionComponent, useState } from 'react';
-import { ActivityIndicator, Alert, Button, StyleSheet } from 'react-native';
+import { ActivityIndicator, Button, StyleSheet } from 'react-native';
 import * as Progress from 'react-native-progress';
-import { uploadImageToBackend } from '../api/backendApi';
+import { uploadImagesToBackend } from '../api/backendApi';
 import { uploadImageAndGetTags } from '../api/imaggaApi';
 import { downloadCSV } from '../helpers/csvHelper';
 import { fileToUri, ImageWithData } from '../helpers/fileHelper';
@@ -17,30 +17,6 @@ async function uploadImagesAndGetTags(
   const responses = await Promise.all(imageData.map(uploadImageAndGetTags));
 
   return responses;
-}
-
-async function uploadImagesToBackend(
-  imageData: ImageWithData[],
-  onProgress: (imageName: string, progress: number) => void
-) {
-  const responses = await Promise.all(
-    imageData.map((image) =>
-      uploadImageToBackend(image, (transferred, total) => {
-        const progress = transferred / total;
-        onProgress(image.name, progress);
-      })
-    )
-  );
-  if (!responses.every(Boolean)) {
-    const failedNames = responses
-      .map((response, index) => [response, imageData[index].name])
-      .filter(([response]) => !response)
-      .map(([, name]) => name);
-    Alert.alert(
-      'Upload Failed',
-      `Failed to upload images: ${failedNames.join(', ')}`
-    );
-  }
 }
 
 const getImageData = async (file: File): Promise<ImageWithData> => {
@@ -95,10 +71,10 @@ const ImageUploader: FunctionComponent = () => {
     setUploadProgress(initialProgress);
     const uploadImagesToBackendPromise = uploadImagesToBackend(
       images,
-      (imageName, progress) => {
+      (imageName, transferred, total) => {
         setUploadProgress((prevUploadProgress) => ({
           ...prevUploadProgress,
-          [imageName]: progress,
+          [imageName]: transferred / total,
         }));
       }
     );
