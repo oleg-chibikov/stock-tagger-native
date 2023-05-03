@@ -5,10 +5,11 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { SplashScreen } from 'expo-router';
+import { SplashScreen, Stack } from 'expo-router';
 import { FunctionComponent, useEffect } from 'react';
 import { useColorScheme } from 'react-native';
-import { ImageUploader } from '../components/ImageUploader';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 const RootLayout: FunctionComponent = () => {
   const [loaded, error] = useFonts({
@@ -34,9 +35,18 @@ const RootLayoutNav: FunctionComponent = () => {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <ImageUploader />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <Stack>
+          <Stack.Screen
+            name="index"
+            options={{
+              title: 'Stock Tagger',
+            }}
+          />
+        </Stack>
+      </ThemeProvider>{' '}
+    </Provider>
   );
 };
 

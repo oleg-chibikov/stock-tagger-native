@@ -4,7 +4,7 @@ function createCSVData(
   images: ImageWithData[],
   tags: string[],
   title: string,
-  category: number
+  category?: number
 ): string {
   const csvSplitter = ',';
   const rows = images.map((image) => {
@@ -12,7 +12,7 @@ function createCSVData(
       Filename: image.name,
       Title: title,
       Keywords: `"${tags.join(csvSplitter)}"`,
-      Category: category.toString(),
+      Category: category?.toString(),
       Releases: '',
     };
   });
@@ -31,7 +31,7 @@ function downloadCSV(
   images: ImageWithData[],
   tags: string[],
   title: string,
-  category: number
+  category?: number
 ) {
   const csvData = createCSVData(images, tags, title, category);
 

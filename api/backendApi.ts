@@ -2,9 +2,29 @@ import axios from 'axios';
 import getEnvVars from '../environment';
 import { ImageWithData } from '../helpers/fileHelper';
 
+enum UploadOperation {
+  Unknown,
+  Upscale,
+  FtpUpload,
+}
+
+function stringToUploadOperation(str: string): UploadOperation {
+  switch (str) {
+    case 'upscale':
+      return UploadOperation.Upscale;
+    case 'ftp_upload':
+      return UploadOperation.FtpUpload;
+    default:
+      return UploadOperation.Unknown;
+  }
+}
 async function uploadImagesToBackend(
   imageData: ImageWithData[],
-  onProgress: (fileName: string, transferred: number, total: number) => void
+  onProgress: (
+    fileName: string,
+    progress: number,
+    operation: UploadOperation
+  ) => void
 ): Promise<boolean> {
   const { backendHost, backendPort } = getEnvVars();
   const url = `${backendHost}:${backendPort}/images/upload`;
@@ -21,7 +41,12 @@ async function uploadImagesToBackend(
   // Set up an event listener for the progress event
   eventSource.addEventListener('progress', (event) => {
     const data = JSON.parse(event.data);
-    onProgress(data.fileName, data.transferred, data.total);
+    // console.log(event.data);
+    onProgress(
+      data.fileName,
+      data.progress,
+      stringToUploadOperation(data.operation)
+    );
   });
 
   try {
@@ -47,4 +72,4 @@ async function uploadImagesToBackend(
   }
 }
 
-export { uploadImagesToBackend };
+export { UploadOperation, uploadImagesToBackend };

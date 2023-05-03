@@ -1,6 +1,4 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { useTheme } from '@react-navigation/native';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import {
   Button,
   Image,
@@ -8,27 +6,36 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import { Popable } from 'react-native-popable';
-import { ImageWithData } from '../helpers/fileHelper';
 import { Text } from './Themed';
 
 interface ImageSelectorProps {
-  images: ImageWithData[];
-  onImagesSelected: (images: ImageWithData[]) => void;
+  onProcess: () => void;
+}
+
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { ImageWithData } from '../helpers/fileHelper';
+import { setSelectedImages } from '../store/imageSlice';
+import { useAppSelector } from '../store/store';
+
+interface ImageSelectorProps {
+  onProcess: () => void;
 }
 
 const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
-  images,
-  onImagesSelected,
+  onProcess,
 }) => {
-  const [selectedImages, setSelectedImages] = useState<ImageWithData[]>([]);
-  const theme = useTheme();
+  const images = useAppSelector((state) => state.image.images);
+  const selectedImages = useAppSelector((state) => state.image.selectedImages);
+  const dispatch = useDispatch();
 
   function toggleImageSelection(image: ImageWithData) {
     if (selectedImages.includes(image)) {
-      setSelectedImages(selectedImages.filter((img) => img !== image));
+      dispatch(
+        setSelectedImages(selectedImages.filter((img) => img !== image))
+      );
     } else {
-      setSelectedImages([...selectedImages, image]);
+      dispatch(setSelectedImages([...selectedImages, image]));
     }
   }
 
@@ -53,32 +60,7 @@ const ImageSelector: FunctionComponent<ImageSelectorProps> = ({
         })}
       </ScrollView>
 
-      <Popable
-        action="hover"
-        content={`Select the images for which you'd like to get the tags.
-
-            Tags will be downloaded as a CSV file and you'll need to upload them to Adobe stock manually.
-
-            Tags will be applied to all the images regardless of the selection and will be submitted to the stock.
-
-            Without the selection only the first image will be used for tag retrieval.
-            `}
-        position="bottom"
-        style={{ width: 500 }}
-      >
-        <Ionicons
-          style={styles.info}
-          name="information-circle-outline"
-          size={50}
-          color={theme.colors.primary}
-        />
-      </Popable>
-      <Button
-        title="Process images"
-        onPress={() =>
-          onImagesSelected(selectedImages.length ? selectedImages : [images[0]])
-        }
-      />
+      <Button title="Upscale and upload images to stock" onPress={onProcess} />
     </>
   );
 };
@@ -110,9 +92,6 @@ const styles = StyleSheet.create({
     height: 24,
     textAlign: 'center',
     lineHeight: 24,
-  },
-  info: {
-    paddingBottom: 16,
   },
 });
 

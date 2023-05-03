@@ -6,11 +6,14 @@ const fileToUri = async (file: File): Promise<string> => {
   });
 };
 
-interface ImageWithData {
+interface ImageWithMetadata {
   name: string;
   uri: string;
+}
+
+interface ImageWithData extends ImageWithMetadata {
   file: File;
 }
 
-export type { ImageWithData };
+export type { ImageWithData, ImageWithMetadata };
 export { fileToUri };

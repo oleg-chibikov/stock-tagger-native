@@ -1,6 +1,6 @@
 import axios from 'axios';
 import getEnvVars from '../environment';
-import { ImageWithData } from '../helpers/fileHelper';
+import { ImageWithMetadata } from '../helpers/fileHelper';
 
 interface Tag {
   confidence: number;
@@ -43,7 +43,9 @@ interface Tag {
 //   return new Promise((resolve) => setTimeout(resolve, ms));
 // }
 
-async function uploadImageAndGetTags(imageData: ImageWithData): Promise<Tag[]> {
+async function uploadImageAndGetTags(
+  imageData: ImageWithMetadata
+): Promise<Tag[]> {
   const { imaggaKey, imaggaSecret } = getEnvVars();
   const apiKey = imaggaKey;
   const apiSecret = imaggaSecret;

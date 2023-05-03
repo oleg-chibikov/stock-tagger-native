@@ -4,6 +4,7 @@
  */
 
 import {
+  StyleSheet,
   Text as DefaultText,
   useColorScheme,
   View as DefaultView,
@@ -30,6 +31,23 @@ type ThemeProps = {
   darkColor?: string;
 };
 
+const styles = StyleSheet.create({
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  input: {
+    flex: 1,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: '#ccc',
+    color: '#ccc',
+    backgroundColor: 'black',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+});
+
 export type TextProps = ThemeProps & DefaultText['props'];
 export type ViewProps = ThemeProps & DefaultView['props'];
 
@@ -40,12 +58,14 @@ export function Text(props: TextProps) {
   return <DefaultText style={[{ color }, style]} {...otherProps} />;
 }
 
-export function View(props: ViewProps) {
-  const { style, lightColor, darkColor, ...otherProps } = props;
-  const backgroundColor = useThemeColor(
-    { light: lightColor, dark: darkColor },
-    'background'
-  );
+// export function View(props: ViewProps) {
+//   const { style, lightColor, darkColor, ...otherProps } = props;
+//   const backgroundColor = useThemeColor(
+//     { light: lightColor, dark: darkColor },
+//     'background'
+//   );
 
-  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
-}
+//   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+// }
+
+export { styles as commonStyles };
