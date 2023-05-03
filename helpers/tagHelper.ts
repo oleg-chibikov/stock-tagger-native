@@ -13,14 +13,17 @@ function getUniqueTags(
   previousTags: string[],
   isAi: boolean
 ): string[] {
-  const flatTags = tags.flatMap((tags) => tags.map((tag) => tag.tag.en));
+  const flatTags = tags.flatMap((innerArray) => innerArray.map((tag) => tag));
+  const sortedTags = flatTags
+    .sort((a, b) => b.confidence - a.confidence)
+    .map((t) => t.tag.en);
   let uniqueTags: Set<string>;
   if (previousTags.length) {
     uniqueTags = new Set<string>(previousTags);
     generativeAiTags.forEach((tag) => uniqueTags.delete(tag));
-    flatTags.forEach((tag) => uniqueTags.add(tag));
+    sortedTags.forEach((tag) => uniqueTags.add(tag));
   } else {
-    uniqueTags = new Set(flatTags);
+    uniqueTags = new Set(sortedTags);
   }
   const updatedTags = [...uniqueTags].slice(
     0,
