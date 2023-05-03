@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { uploadImagesToBackend, UploadOperation } from '../api/backendApi';
-import { pickImages } from '../helpers/imageHelper';
-import { setImages } from '../store/imageSlice';
-import { useAppSelector } from '../store/store';
-import { ImageSelector } from './ImageSelector';
-import { ProgressLoader, ProgressState } from './ProgressLoader';
-import { ContainerStyleProps } from './Themed';
+import { uploadImagesToBackend, UploadOperation } from '../../api/backendApi';
+import { pickImages } from '../../helpers/imageHelper';
+import { setImages } from '../../store/imageSlice';
+import { useAppSelector } from '../../store/store';
+import { ImageSelector } from '../ImageSelector';
+import { ProgressLoader, ProgressState } from '../ProgressLoader';
+import { ContainerStyleProps } from '../Themed';
 
 const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
   containerStyle,

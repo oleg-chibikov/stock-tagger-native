@@ -3,7 +3,7 @@ import { useTheme } from '@react-navigation/native';
 import React, { FunctionComponent } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { RenderItemParams } from 'react-native-draggable-flatlist';
-import { Text } from './Themed';
+import { Text } from '../Themed';
 
 type TagProps = RenderItemParams<string> & {
   handleRemoveTag: (index?: number) => void;

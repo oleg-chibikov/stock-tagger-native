@@ -4,10 +4,10 @@ import DraggableFlatList, {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../store/store';
-import { removeTagAtIndex, setTags } from '../store/tagSlice';
+import { useAppSelector } from '../../store/store';
+import { removeTagAtIndex, setTags } from '../../store/tagSlice';
+import { ContainerStyleProps, Text } from '../Themed';
 import { Tag } from './Tag';
-import { ContainerStyleProps, Text } from './Themed';
 
 const Tags: React.FunctionComponent<ContainerStyleProps> = ({
   containerStyle,

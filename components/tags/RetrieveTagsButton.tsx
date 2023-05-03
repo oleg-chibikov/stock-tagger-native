@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { ActivityIndicator, Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { uploadImageAndGetTags } from '../api/imaggaApi';
-import { ImageWithMetadata } from '../helpers/fileHelper';
-import { getUniqueTags } from '../helpers/tagHelper';
-import { useAppSelector } from '../store/store';
-import { setTags } from '../store/tagSlice';
-import { ContainerStyleProps } from './Themed';
+import { uploadImageAndGetTags } from '../../api/imaggaApi';
+import { ImageWithMetadata } from '../../helpers/fileHelper';
+import { getUniqueTags } from '../../helpers/tagHelper';
+import { useAppSelector } from '../../store/store';
+import { setTags } from '../../store/tagSlice';
+import { ContainerStyleProps } from '../Themed';
 
 interface RetrieveTagsButtonProps extends ContainerStyleProps {
   selectedImages: ImageWithMetadata[];

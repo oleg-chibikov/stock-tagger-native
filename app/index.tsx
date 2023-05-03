@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useMediaQuery } from 'react-responsive';
-import { MainSection } from '../components/MainSection';
-import { SidePanel } from '../components/SidePanel';
+import { MainSection } from '../components/layout/MainSection';
+import { SidePanel } from '../components/layout/SidePanel';
 
 const Index: FunctionComponent = () => {
   const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Define breakpoint for small screens

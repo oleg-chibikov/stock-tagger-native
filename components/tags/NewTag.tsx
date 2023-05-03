@@ -1,10 +1,10 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { maxTags } from '../helpers/tagHelper';
-import { useAppSelector } from '../store/store';
-import { prependTag } from '../store/tagSlice';
-import { commonStyles, ContainerStyleProps } from './Themed';
+import { maxTags } from '../../helpers/tagHelper';
+import { useAppSelector } from '../../store/store';
+import { prependTag } from '../../store/tagSlice';
+import { commonStyles, ContainerStyleProps } from '../Themed';
 
 const NewTag: FunctionComponent<ContainerStyleProps> = ({ containerStyle }) => {
   const dispatch = useDispatch();

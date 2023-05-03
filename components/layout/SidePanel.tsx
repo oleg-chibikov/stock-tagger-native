@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, View } from 'react-native';
-import { categories } from '../constants/Categories';
-import { downloadCSV } from '../helpers/csvHelper';
-import { useAppSelector } from '../store/store';
-import { HelpIcon } from './core/HelpIcon';
-import { LabeledInput } from './core/LabeledInput';
-import { LabeledPicker } from './core/LabeledPicker';
-import { NewTag } from './NewTag';
-import { RetrieveTagsButton } from './RetrieveTagsButton';
-import { Tags } from './Tags';
-import { ContainerStyleProps } from './Themed';
+import { categories } from '../../constants/Categories';
+import { downloadCSV } from '../../helpers/csvHelper';
+import { useAppSelector } from '../../store/store';
+import { LabeledInput } from '../core/LabeledInput';
+import { LabeledPicker } from '../core/LabeledPicker';
+import { HelpIcon } from '../HelpIcon';
+import { NewTag } from '../tags/NewTag';
+import { RetrieveTagsButton } from '../tags/RetrieveTagsButton';
+import { Tags } from '../tags/Tags';
+import { ContainerStyleProps } from '../Themed';
 
 const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
   containerStyle,
