@@ -5,6 +5,7 @@ import { uploadImagesToBackend, UploadOperation } from '../../api/backendApi';
 import { pickImages } from '../../helpers/imageHelper';
 import { setImages } from '../../store/imageSlice';
 import { useAppSelector } from '../../store/store';
+import { setTags } from '../../store/tagSlice';
 import { ImageSelector } from '../ImageSelector';
 import { ProgressLoader, ProgressState } from '../ProgressLoader';
 import { ContainerStyleProps } from '../Themed';
@@ -23,6 +24,7 @@ const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
     const newImages = await pickImages();
     if (newImages) {
       dispatch(setImages(newImages));
+      dispatch(setTags([]));
     }
   };
 
