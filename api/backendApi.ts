@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import getEnvVars from '../environment';
-import { ImageWithData } from '../helpers/fileHelper';
+import { ImageWithData, toFile } from '../helpers/fileHelper';
 
 enum UploadOperation {
   Unknown,
@@ -8,7 +8,17 @@ enum UploadOperation {
   FtpUpload,
 }
 
-function stringToUploadOperation(str: string): UploadOperation {
+interface Caption {
+  caption: string;
+  similarity: number;
+}
+
+interface CaptionResponse {
+  results: Caption[];
+}
+
+// TODO: handle errors in this file and show them in popup
+const stringToUploadOperation = (str: string): UploadOperation => {
   switch (str) {
     case 'upscale':
       return UploadOperation.Upscale;
@@ -17,21 +27,39 @@ function stringToUploadOperation(str: string): UploadOperation {
     default:
       return UploadOperation.Unknown;
   }
-}
-async function uploadImagesToBackend(
+};
+
+const getCaptionsFromBackend = async (
+  imageData: ImageWithData[]
+): Promise<Caption[]> => {
+  const { backendHost, backendPort } = getEnvVars();
+  const url = `${backendHost}:${backendPort}/images/caption`;
+
+  try {
+    const response = await post<CaptionResponse>(url, imageData);
+
+    // handle successful response
+    if (isSuccessResponse(response)) {
+      return response.data.results;
+    } else {
+      return [];
+    }
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+const upscaleAndUploadToStock = async (
   imageData: ImageWithData[],
   onProgress: (
     fileName: string,
     progress: number,
     operation: UploadOperation
   ) => void
-): Promise<boolean> {
+): Promise<boolean> => {
   const { backendHost, backendPort } = getEnvVars();
   const url = `${backendHost}:${backendPort}/images/upload`;
-  const formData = new FormData();
-  imageData.forEach((image) => {
-    formData.append('images', image.file, image.name);
-  });
 
   // Create a new EventSource to listen for SSE from the /events route
   const eventSource = new EventSource(
@@ -50,14 +78,10 @@ async function uploadImagesToBackend(
   });
 
   try {
-    const response = await axios.post(url, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
+    const response = await post(url, imageData);
 
     // handle successful response
-    if (response.status >= 200 && response.status < 300) {
+    if (isSuccessResponse(response)) {
       return true;
     } else {
       return false;
@@ -70,6 +94,29 @@ async function uploadImagesToBackend(
     // Close the EventSource when the request is complete or if an error occurs
     eventSource.close();
   }
-}
+};
 
-export { UploadOperation, uploadImagesToBackend };
+const post = async <TData>(
+  url: string,
+  imageData: ImageWithData[]
+): Promise<AxiosResponse<TData, unknown>> => {
+  const formData = new FormData();
+  imageData.forEach((image) => {
+    formData.append('images', toFile(image), image.name);
+  });
+  return await axios.post(url, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+};
+
+const isSuccessResponse = (response: AxiosResponse<unknown, unknown>) =>
+  response.status >= 200 && response.status < 300;
+
+export {
+  Caption,
+  UploadOperation,
+  upscaleAndUploadToStock,
+  getCaptionsFromBackend,
+};

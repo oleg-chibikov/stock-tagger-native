@@ -1,6 +1,6 @@
 import axios from 'axios';
 import getEnvVars from '../environment';
-import { ImageWithMetadata } from '../helpers/fileHelper';
+import { ImageWithData, toBase64 } from '../helpers/fileHelper';
 
 interface Tag {
   confidence: number;
@@ -43,15 +43,13 @@ interface Tag {
 //   return new Promise((resolve) => setTimeout(resolve, ms));
 // }
 
-async function uploadImageAndGetTags(
-  imageData: ImageWithMetadata
-): Promise<Tag[]> {
+async function uploadImageAndGetTags(imageData: ImageWithData): Promise<Tag[]> {
   const { imaggaKey, imaggaSecret } = getEnvVars();
   const apiKey = imaggaKey;
   const apiSecret = imaggaSecret;
 
   const formData = new FormData();
-  const base64 = imageData.uri.split(',')[1];
+  const base64 = toBase64(imageData);
   formData.append('image_base64', base64);
 
   const response = await axios.post(

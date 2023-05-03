@@ -6,14 +6,20 @@ const fileToUri = async (file: File): Promise<string> => {
   });
 };
 
-interface ImageWithMetadata {
+const toBase64 = (imageData: ImageWithData) => imageData.uri.split(',')[1];
+
+const toFile = (imageData: ImageWithData): File => {
+  const base64 = toBase64(imageData);
+  const decodedData = Uint8Array.from(atob(base64), (c) => c.charCodeAt(0));
+  const blob = new Blob([decodedData], { type: imageData.type });
+  return new File([blob], imageData.name, { type: imageData.type });
+};
+
+interface ImageWithData {
   name: string;
   uri: string;
+  type: string;
 }
 
-interface ImageWithData extends ImageWithMetadata {
-  file: File;
-}
-
-export type { ImageWithData, ImageWithMetadata };
-export { fileToUri };
+export type { ImageWithData };
+export { fileToUri, toBase64, toFile };

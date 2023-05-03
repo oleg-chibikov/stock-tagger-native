@@ -6,7 +6,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "prettier"
     ],
     "overrides": [
     ],
@@ -20,10 +21,7 @@
         "prettier"
     ],
     "rules": {
-        "indent": [
-            "error",
-            2, { "SwitchCase": 1 }
-        ],
+        "indent": "off",
         "linebreak-style": [
             "error",
             "windows"

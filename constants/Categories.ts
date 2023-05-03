@@ -1,5 +1,5 @@
 const categories = [
-  { label: '' },
+  { label: '', value: null },
   { label: 'Animals', value: 1 },
   { label: 'Buildings and Architecture', value: 2 },
   { label: 'Business', value: 3 },

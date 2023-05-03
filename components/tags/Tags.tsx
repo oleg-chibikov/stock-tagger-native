@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
   },
-  scrollView: { flex: 1, marginVertical: 10, paddingRight: 20 },
+  scrollView: { flex: 1, maxHeight: 300, marginVertical: 10, paddingRight: 20 },
 });
 
 export { Tags };

@@ -1,40 +1,33 @@
-import { Picker } from '@react-native-picker/picker';
-import React, { FunctionComponent } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { commonStyles, ContainerStyleProps, Text } from '../Themed';
+import { ComboBox, ComboBoxItem } from './ComboBox';
 
-interface LabeledPickerProps extends ContainerStyleProps {
+interface LabeledPickerProps<TValue> extends ContainerStyleProps {
   label: string;
-  value?: string | number;
-  onValueChange: (value: string | number) => void;
-  items: { label: string; value?: string | number }[];
+  value?: TValue;
+  onSelect: (value: TValue) => void;
+  items: ComboBoxItem<TValue>[];
   labelWidth?: number | string;
 }
 
-const LabeledPicker: FunctionComponent<LabeledPickerProps> = ({
+const LabeledPicker = <TValue,>({
   label,
   value,
-  onValueChange,
+  onSelect,
   items,
   containerStyle,
   labelWidth,
-}) => {
+}: LabeledPickerProps<TValue>) => {
   return (
     <View style={[commonStyles.inputContainer, containerStyle]}>
       <Text style={{ width: labelWidth }}>{label}:</Text>
-      <Picker
-        style={commonStyles.input}
-        selectedValue={value}
-        onValueChange={onValueChange}
-      >
-        {items.map((item) => (
-          <Picker.Item
-            key={item.value || 'no key'}
-            label={item.label}
-            value={item.value}
-          />
-        ))}
-      </Picker>
+      <ComboBox<TValue>
+        containerStyle={commonStyles.input}
+        initialValue={value}
+        onSelect={onSelect}
+        data={items}
+      />
     </View>
   );
 };

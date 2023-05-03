@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { uploadImagesToBackend, UploadOperation } from '../../api/backendApi';
+import { UploadOperation, upscaleAndUploadToStock } from '../../api/backendApi';
 import { pickImages } from '../../helpers/imageHelper';
 import { setImages } from '../../store/imageSlice';
 import { useAppSelector } from '../../store/store';
@@ -38,7 +38,7 @@ const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
       };
     }
     setUploadProgress(initialProgress);
-    await uploadImagesToBackend(images, (imageName, progress, operation) => {
+    await upscaleAndUploadToStock(images, (imageName, progress, operation) => {
       setUploadProgress((prevUploadProgress) => ({
         ...prevUploadProgress,
         [imageName]: { progress, operation },

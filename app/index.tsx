@@ -27,6 +27,7 @@ const getStyles = (isSmallScreen: boolean) => {
       backgroundColor: '#111',
       height: '100%',
       overflowX: 'hidden',
+      zIndex: 0,
     },
     mainSection: {
       flex: 1,

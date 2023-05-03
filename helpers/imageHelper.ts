@@ -3,7 +3,11 @@ import { fileToUri, ImageWithData } from '../helpers/fileHelper';
 
 const getImageData = async (file: File): Promise<ImageWithData> => {
   const uri = await fileToUri(file);
-  return { name: file.name, uri: uri, file: file };
+  return {
+    name: file.name,
+    uri: uri,
+    type: file.type,
+  };
 };
 
 const pickImages = async (): Promise<ImageWithData[] | null> => {

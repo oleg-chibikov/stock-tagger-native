@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ImageWithData, ImageWithMetadata } from '../helpers/fileHelper';
+import { ImageWithData } from '../helpers/fileHelper';
 
 interface ImageState {
   images: ImageWithData[];
-  selectedImages: ImageWithMetadata[];
+  selectedImages: ImageWithData[];
 }
 
 const initialState: ImageState = {
@@ -18,7 +18,7 @@ const imageSlice = createSlice({
     setImages: (state, action: PayloadAction<ImageWithData[]>) => {
       state.images = action.payload;
     },
-    setSelectedImages: (state, action: PayloadAction<ImageWithMetadata[]>) => {
+    setSelectedImages: (state, action: PayloadAction<ImageWithData[]>) => {
       state.selectedImages = action.payload;
     },
   },
