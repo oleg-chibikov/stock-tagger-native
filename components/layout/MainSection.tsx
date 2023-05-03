@@ -19,7 +19,7 @@ const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
   const images = useAppSelector((state) => state.image.images);
   const dispatch = useDispatch();
 
-  const updateImages = async () => {
+  const selectImages = async () => {
     const newImages = await pickImages();
     if (newImages) {
       dispatch(setImages(newImages));
@@ -51,7 +51,7 @@ const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
         <ProgressLoader uploadProgress={uploadProgress} />
       ) : (
         <>
-          <Button title="Select Images" onPress={updateImages} />
+          <Button title="Select Images" onPress={selectImages} />
           {Boolean(images.length) && (
             <>
               <ImageSelector
