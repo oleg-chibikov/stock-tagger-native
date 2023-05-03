@@ -15,7 +15,6 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
-    "@fanchenbao/react-native-scroll-indicator": "^0.2.1",
     "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/native": "^6.0.2",
     "@reduxjs/toolkit": "^1.9.5",
