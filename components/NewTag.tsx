@@ -1,16 +1,25 @@
 import React, { FunctionComponent, useState } from 'react';
 import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { maxTags } from '../helpers/tagHelper';
+import { useAppSelector } from '../store/store';
+import { prependTag } from '../store/tagSlice';
 import { commonStyles } from './Themed';
 
-interface NewTagProps {
-  onNewTag: (tag: string) => void;
-}
-
-const NewTag: FunctionComponent<NewTagProps> = ({ onNewTag }) => {
+const NewTag: FunctionComponent = () => {
+  const dispatch = useDispatch();
+  const handlePrependTag = (tag: string) => {
+    dispatch(prependTag(tag));
+  };
   const [newTag, setNewTag] = useState('');
+  const tags = useAppSelector((state) => state.tag.tags);
   const handleAddTag = () => {
     if (newTag) {
-      onNewTag(newTag.trim());
+      // TODO: can we store set in redux instead of array
+      const set = new Set(tags);
+      if (!set.has(newTag)) {
+        handlePrependTag(newTag.trim());
+      }
       setNewTag('');
     }
   };
@@ -24,7 +33,7 @@ const NewTag: FunctionComponent<NewTagProps> = ({ onNewTag }) => {
       />
       <Button
         title="Add"
-        disabled={!newTag.trim().length}
+        disabled={!newTag.trim().length || tags.length >= maxTags}
         onPress={handleAddTag}
       />
     </View>

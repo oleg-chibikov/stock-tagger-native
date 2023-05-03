@@ -31,4 +31,4 @@ function getUniqueTags(
 }
 
 export type { Tag };
-export { getUniqueTags };
+export { maxTags, getUniqueTags };

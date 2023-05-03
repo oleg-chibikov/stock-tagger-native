@@ -5,20 +5,16 @@ import DraggableFlatList, {
 } from 'react-native-draggable-flatlist';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../store/store';
-import { prependTag, removeTagAtIndex, setTags } from '../store/tagSlice';
+import { removeTagAtIndex, setTags } from '../store/tagSlice';
 import { NewTag } from './NewTag';
 import { Tag } from './Tag';
 import { Text } from './Themed';
 
 interface TagsProps {
   containerStyle?: ViewStyle;
-  labelWidth?: number | string;
 }
 
-const Tags: React.FunctionComponent<TagsProps> = ({
-  containerStyle,
-  labelWidth,
-}) => {
+const Tags: React.FunctionComponent<TagsProps> = ({ containerStyle }) => {
   const tags = useAppSelector((state) => state.tag.tags);
   const dispatch = useDispatch();
 
@@ -39,17 +35,13 @@ const Tags: React.FunctionComponent<TagsProps> = ({
     }
   };
 
-  const handlePrependTag = (tag: string) => {
-    dispatch(prependTag(tag));
-  };
-
   const handleSetTags = (tags: string[]) => {
     dispatch(setTags(tags));
   };
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <NewTag onNewTag={handlePrependTag} />
+      <NewTag />
       {Boolean(tags.length) && (
         <>
           <Text style={styles.title}>Tags</Text>

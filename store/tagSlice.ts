@@ -2,12 +2,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface TagState {
   tags: string[];
-  selectedTags: string[];
 }
 
 const initialState: TagState = {
   tags: [],
-  selectedTags: [],
 };
 
 const tagSlice = createSlice({
@@ -23,12 +21,8 @@ const tagSlice = createSlice({
     prependTag: (state, action: PayloadAction<string>) => {
       state.tags.unshift(action.payload);
     },
-    setSelectedTags: (state, action: PayloadAction<string[]>) => {
-      state.selectedTags = action.payload;
-    },
   },
 });
 
-export const { setTags, removeTagAtIndex, prependTag, setSelectedTags } =
-  tagSlice.actions;
+export const { setTags, removeTagAtIndex, prependTag } = tagSlice.actions;
 export default tagSlice.reducer;

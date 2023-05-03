@@ -52,7 +52,7 @@ const SidePanel: React.FunctionComponent = () => {
         items={categories}
         containerStyle={{ marginTop: 10 }}
       />
-      <Tags labelWidth={labelWidth} containerStyle={{ marginTop: 10 }} />
+      <Tags containerStyle={{ marginTop: 10 }} />
       {hasTags && <Button title="Download tags" onPress={downloadTags} />}
     </View>
   );
