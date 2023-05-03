@@ -1,20 +1,17 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import DraggableFlatList, {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../store/store';
 import { removeTagAtIndex, setTags } from '../store/tagSlice';
-import { NewTag } from './NewTag';
 import { Tag } from './Tag';
-import { Text } from './Themed';
+import { ContainerStyleProps, Text } from './Themed';
 
-interface TagsProps {
-  containerStyle?: ViewStyle;
-}
-
-const Tags: React.FunctionComponent<TagsProps> = ({ containerStyle }) => {
+const Tags: React.FunctionComponent<ContainerStyleProps> = ({
+  containerStyle,
+}) => {
   const tags = useAppSelector((state) => state.tag.tags);
   const dispatch = useDispatch();
 
@@ -40,8 +37,7 @@ const Tags: React.FunctionComponent<TagsProps> = ({ containerStyle }) => {
   };
 
   return (
-    <View style={[styles.container, containerStyle]}>
-      <NewTag />
+    <View style={[containerStyle, styles.container]}>
       {Boolean(tags.length) && (
         <>
           <Text style={styles.title}>Tags</Text>
@@ -72,7 +68,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginTop: 10,
   },
   scrollView: { flex: 1, marginVertical: 10, paddingRight: 20 },
 });

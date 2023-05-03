@@ -6,10 +6,14 @@ import { useAppSelector } from '../store/store';
 import { HelpIcon } from './core/HelpIcon';
 import { LabeledInput } from './core/LabeledInput';
 import { LabeledPicker } from './core/LabeledPicker';
+import { NewTag } from './NewTag';
 import { RetrieveTagsButton } from './RetrieveTagsButton';
 import { Tags } from './Tags';
+import { ContainerStyleProps } from './Themed';
 
-const SidePanel: React.FunctionComponent = () => {
+const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
+  containerStyle,
+}) => {
   const tags = useAppSelector((state) => state.tag.tags);
   const images = useAppSelector((state) => state.image.images);
   const selectedImages = useAppSelector((state) => state.image.selectedImages);
@@ -24,25 +28,15 @@ const SidePanel: React.FunctionComponent = () => {
   const labelWidth = '80px';
 
   return (
-    <View style={styles.sidePanel}>
-      <View style={styles.topRow}>
-        <HelpIcon />
-        {Boolean(images.length) && (
-          <RetrieveTagsButton
-            selectedImages={
-              selectedImages.length ? selectedImages : [images[0]]
-            }
-            containerStyle={styles.RetrieveTagsButton}
-          />
-        )}
-      </View>
+    <View style={[containerStyle, styles.sidePanel]}>
+      <HelpIcon />
       <LabeledInput
         labelWidth={labelWidth}
         label="Title"
         value={title}
         onChangeText={setTitle}
         placeholder="Enter common title for all the images"
-        containerStyle={{ marginTop: 10 }}
+        containerStyle={styles.marginTop}
       />
       <LabeledPicker
         labelWidth={labelWidth}
@@ -50,28 +44,30 @@ const SidePanel: React.FunctionComponent = () => {
         value={category}
         onValueChange={(value) => setCategory(value as number)}
         items={categories}
-        containerStyle={{ marginTop: 10 }}
+        containerStyle={styles.marginTop}
       />
-      <Tags containerStyle={{ marginTop: 10 }} />
-      {hasTags && <Button title="Download tags" onPress={downloadTags} />}
+      {Boolean(images.length) && (
+        <>
+          <RetrieveTagsButton
+            selectedImages={
+              selectedImages.length ? selectedImages : [images[0]]
+            }
+            containerStyle={styles.marginTop}
+          />
+          <NewTag containerStyle={styles.marginTop} />
+          <Tags containerStyle={styles.marginTop} />
+          {hasTags && <Button title="Download tags" onPress={downloadTags} />}
+        </>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  marginTop: { marginTop: 10 },
   sidePanel: {
-    flex: 0.4,
-    height: '700px',
     backgroundColor: '#222',
     padding: 20,
-  },
-  topRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  RetrieveTagsButton: {
-    flex: 1,
-    marginLeft: 10,
   },
 });
 

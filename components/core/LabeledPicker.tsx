@@ -1,16 +1,15 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { FunctionComponent } from 'react';
-import { View, ViewStyle } from 'react-native';
-import { commonStyles, Text } from '../Themed';
+import { View } from 'react-native';
+import { commonStyles, ContainerStyleProps, Text } from '../Themed';
 
-type LabeledPickerProps = {
+interface LabeledPickerProps extends ContainerStyleProps {
   label: string;
   value?: string | number;
   onValueChange: (value: string | number) => void;
   items: { label: string; value?: string | number }[];
-  containerStyle?: ViewStyle;
   labelWidth?: number | string;
-};
+}
 
 const LabeledPicker: FunctionComponent<LabeledPickerProps> = ({
   label,

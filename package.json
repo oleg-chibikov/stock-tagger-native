@@ -14,6 +14,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/match-media": "^0.4.0",
     "@expo/vector-icons": "^13.0.0",
     "@react-native-picker/picker": "^2.4.10",
     "@react-navigation/native": "^6.0.2",
@@ -41,6 +42,7 @@
     "react-native-screens": "~3.20.0",
     "react-native-web": "~0.18.10",
     "react-redux": "^8.0.5",
+    "react-responsive": "^9.0.2",
     "redux": "^4.2.1"
   },
   "devDependencies": {

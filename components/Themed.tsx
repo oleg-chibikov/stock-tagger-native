@@ -8,6 +8,7 @@ import {
   Text as DefaultText,
   useColorScheme,
   View as DefaultView,
+  ViewStyle,
 } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -31,7 +32,7 @@ type ThemeProps = {
   darkColor?: string;
 };
 
-const styles = StyleSheet.create({
+const commonStyles = StyleSheet.create({
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -68,4 +69,8 @@ export function Text(props: TextProps) {
 //   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 // }
 
-export { styles as commonStyles };
+interface ContainerStyleProps {
+  containerStyle?: ViewStyle;
+}
+
+export { ContainerStyleProps, commonStyles };

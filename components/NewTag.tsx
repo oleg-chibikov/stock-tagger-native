@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { maxTags } from '../helpers/tagHelper';
 import { useAppSelector } from '../store/store';
 import { prependTag } from '../store/tagSlice';
-import { commonStyles } from './Themed';
+import { commonStyles, ContainerStyleProps } from './Themed';
 
-const NewTag: FunctionComponent = () => {
+const NewTag: FunctionComponent<ContainerStyleProps> = ({ containerStyle }) => {
   const dispatch = useDispatch();
   const handlePrependTag = (tag: string) => {
     dispatch(prependTag(tag));
@@ -15,7 +15,6 @@ const NewTag: FunctionComponent = () => {
   const tags = useAppSelector((state) => state.tag.tags);
   const handleAddTag = () => {
     if (newTag) {
-      // TODO: can we store set in redux instead of array
       const set = new Set(tags);
       if (!set.has(newTag)) {
         handlePrependTag(newTag.trim());
@@ -24,7 +23,7 @@ const NewTag: FunctionComponent = () => {
     }
   };
   return (
-    <View style={styles.container}>
+    <View style={[containerStyle, styles.container]}>
       <TextInput
         value={newTag}
         onChangeText={setNewTag}

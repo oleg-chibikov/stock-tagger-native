@@ -1,15 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { TextInput, View, ViewStyle } from 'react-native';
-import { commonStyles, Text } from '../Themed';
+import { TextInput, View } from 'react-native';
+import { commonStyles, ContainerStyleProps, Text } from '../Themed';
 
-type LabeledInputProps = {
+interface LabeledInputProps extends ContainerStyleProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
   placeholder?: string;
-  containerStyle?: ViewStyle;
   labelWidth?: number | string;
-};
+}
 
 const LabeledInput: FunctionComponent<LabeledInputProps> = ({
   label,

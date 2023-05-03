@@ -7,6 +7,7 @@ const HelpIcon: FunctionComponent = () => {
   const theme = useTheme();
   return (
     <Popable
+      wrapperStyle={{ alignSelf: 'center' }}
       action="hover"
       content={`Select the images for which you'd like to get the tags.
 
@@ -16,7 +17,7 @@ const HelpIcon: FunctionComponent = () => {
 
         Without the selection only the first image will be used for tag retrieval.
         `}
-      position="left"
+      position="bottom"
       style={{ width: 500 }}
     >
       <Ionicons

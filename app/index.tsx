@@ -1,26 +1,42 @@
 import React, { FunctionComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useMediaQuery } from 'react-responsive';
 import { MainSection } from '../components/MainSection';
 import { SidePanel } from '../components/SidePanel';
 
 const Index: FunctionComponent = () => {
+  const isSmallScreen = useMediaQuery({ maxWidth: 767 }); // Define breakpoint for small screens
+
+  const styles = getStyles(isSmallScreen);
+
   return (
     <View style={styles.container}>
-      <MainSection />
-      <SidePanel />
+      <MainSection containerStyle={styles.mainSection} />
+      <SidePanel containerStyle={styles.sidePanel} />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    padding: 32,
-    backgroundColor: '#111',
-    height: '100%',
-  },
-});
+const getStyles = (isSmallScreen: boolean) => {
+  return StyleSheet.create({
+    container: {
+      flexDirection: isSmallScreen ? 'column' : 'row', // Use column layout for small screens and row layout for large screens
+      alignItems: 'flex-start',
+      justifyContent: 'center',
+      padding: isSmallScreen ? 16 : 32, // Use smaller padding for small screens
+      backgroundColor: '#111',
+      height: '100%',
+      overflowX: 'hidden',
+    },
+    mainSection: {
+      flex: 1,
+      marginRight: isSmallScreen ? 0 : 16, // Add space between MainSection and SidePanel for large screens
+    },
+    sidePanel: {
+      width: isSmallScreen ? '100%' : 350, // Set SidePanel width to 300 for large screens
+      marginTop: isSmallScreen ? 16 : 0, // Add space above SidePanel for small screens
+    },
+  });
+};
 
 export default Index;

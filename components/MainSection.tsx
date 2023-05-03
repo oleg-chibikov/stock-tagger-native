@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, View } from 'react-native';
+import { Button, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { uploadImagesToBackend, UploadOperation } from '../api/backendApi';
 import { pickImages } from '../helpers/imageHelper';
@@ -7,8 +7,11 @@ import { setImages } from '../store/imageSlice';
 import { useAppSelector } from '../store/store';
 import { ImageSelector } from './ImageSelector';
 import { ProgressLoader, ProgressState } from './ProgressLoader';
+import { ContainerStyleProps } from './Themed';
 
-const MainSection: React.FunctionComponent = () => {
+const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
+  containerStyle,
+}) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<
     Record<string, ProgressState>
@@ -43,7 +46,7 @@ const MainSection: React.FunctionComponent = () => {
   }
 
   return (
-    <View style={styles.mainSection}>
+    <View style={containerStyle}>
       {loading ? (
         <ProgressLoader uploadProgress={uploadProgress} />
       ) : (
@@ -63,12 +66,5 @@ const MainSection: React.FunctionComponent = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  mainSection: {
-    flex: 1,
-    marginRight: 30,
-  },
-});
 
 export { MainSection };
