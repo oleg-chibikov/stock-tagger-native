@@ -27,14 +27,14 @@ const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({ style }) => {
 
   return (
     <View style={[style, styles.sidePanel]}>
-      <HelpIcon style={{ zIndex: 2 }} />
+      <HelpIcon style={{ zIndex: 3 }} />
       <LabeledPicker<string>
         labelWidth={labelWidth}
         label="Title"
         value={title}
         onSelect={(value) => setTitle(value as string)}
         items={captions}
-        style={styles.marginTop}
+        style={(styles.marginTop, { zIndex: 2 })}
       />
       <LabeledPicker<number | null>
         editable={false}
@@ -68,7 +68,7 @@ const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({ style }) => {
 };
 
 const styles = StyleSheet.create({
-  marginTop: { marginTop: 10, zIndex: 0 },
+  marginTop: { marginTop: 10 },
   sidePanel: {
     backgroundColor: '#222',
     padding: 20,

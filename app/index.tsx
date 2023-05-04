@@ -34,7 +34,7 @@ const getStyles = (isSmallScreen: boolean) => {
       marginRight: isSmallScreen ? 0 : 16, // Add space between MainSection and SidePanel for large screens
     },
     sidePanel: {
-      width: isSmallScreen ? '100%' : 350, // Set SidePanel width to 300 for large screens
+      width: isSmallScreen ? '100%' : 750, // Set SidePanel width for large screens
       marginTop: isSmallScreen ? 16 : 0, // Add space above SidePanel for small screens
     },
   });

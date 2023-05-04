@@ -2,10 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList,
+  StyleProp,
   StyleSheet,
   Text,
   TextInput,
   View,
+  ViewStyle,
 } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import { commonStyles, ContainerStyleProps } from '../Themed';
@@ -22,6 +24,7 @@ interface ComboBoxProps<TValue> extends ContainerStyleProps {
   value?: TValue;
   enableSearch?: boolean;
   editable?: boolean;
+  listStyle?: StyleProp<ViewStyle>;
 }
 
 const ComboBox = <TValue,>({
@@ -31,6 +34,7 @@ const ComboBox = <TValue,>({
   value,
   enableSearch = false,
   editable = true,
+  listStyle,
 }: ComboBoxProps<TValue>) => {
   const [inputValue, setInputValue] = useState(
     value ? items.find((item) => item.value === value)?.label || '' : ''
@@ -77,7 +81,10 @@ const ComboBox = <TValue,>({
     <View style={styles.container}>
       <TextInput
         style={commonStyles.input}
-        onChangeText={setInputValue}
+        onChangeText={(v) => {
+          setInputValue(v);
+          onSelect(v as TValue); // TValue must be string when ComboBox is editable
+        }}
         value={inputValue}
         editable={editable}
         onFocus={() => {
@@ -95,6 +102,7 @@ const ComboBox = <TValue,>({
         <Animated.View
           style={[
             styles.list,
+            listStyle,
             {
               opacity: opacityAnimation,
             },
