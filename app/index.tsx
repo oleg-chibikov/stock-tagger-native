@@ -11,8 +11,8 @@ const Index: FunctionComponent = () => {
 
   return (
     <View style={styles.container}>
-      <MainSection containerStyle={styles.mainSection} />
-      <SidePanel containerStyle={styles.sidePanel} />
+      <MainSection style={styles.mainSection} />
+      <SidePanel style={styles.sidePanel} />
     </View>
   );
 };

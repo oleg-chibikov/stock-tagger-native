@@ -14,7 +14,7 @@ interface RetrieveTagsButtonProps extends ContainerStyleProps {
 
 const RetrieveTagsButton: React.FunctionComponent<RetrieveTagsButtonProps> = ({
   onCaptionsRetrieved,
-  containerStyle,
+  style,
 }) => {
   const selectedImages = useAppSelector((state) => state.image.selectedImages);
   const images = useAppSelector((state) => state.image.images);
@@ -47,7 +47,7 @@ const RetrieveTagsButton: React.FunctionComponent<RetrieveTagsButtonProps> = ({
   };
 
   return (
-    <View style={containerStyle}>
+    <View style={style}>
       <Button
         title="Retrieve Tags and Captions"
         onPress={handlePress}

@@ -11,9 +11,7 @@ import { RetrieveTagsButton } from '../tags/RetrieveTagsButton';
 import { Tags } from '../tags/Tags';
 import { ContainerStyleProps } from '../Themed';
 
-const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
-  containerStyle,
-}) => {
+const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({ style }) => {
   const tags = useAppSelector((state) => state.tag.tags);
   const images = useAppSelector((state) => state.image.images);
   const hasTags = tags.length > 0;
@@ -28,23 +26,24 @@ const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
   const labelWidth = '80px';
 
   return (
-    <View style={[containerStyle, styles.sidePanel]}>
-      <HelpIcon />
+    <View style={[style, styles.sidePanel]}>
+      <HelpIcon style={{ zIndex: 2 }} />
       <LabeledPicker<string>
         labelWidth={labelWidth}
         label="Title"
         value={title}
         onSelect={(value) => setTitle(value as string)}
         items={captions}
-        containerStyle={styles.marginTop}
+        style={styles.marginTop}
       />
       <LabeledPicker<number | null>
+        editable={false}
         labelWidth={labelWidth}
         label="Category"
         value={category}
         onSelect={(value) => setCategory(value as number)}
         items={categories}
-        containerStyle={styles.marginTop}
+        style={[styles.marginTop, { zIndex: 1 }]}
       />
       {Boolean(images.length) && (
         <>
@@ -57,10 +56,10 @@ const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
                 }))
               );
             }}
-            containerStyle={styles.marginTop}
+            style={styles.marginTop}
           />
-          <NewTag containerStyle={styles.marginTop} />
-          <Tags containerStyle={styles.marginTop} />
+          <NewTag style={styles.marginTop} />
+          <Tags style={styles.marginTop} />
           {hasTags && <Button title="Download tags" onPress={downloadTags} />}
         </>
       )}
@@ -69,7 +68,7 @@ const SidePanel: React.FunctionComponent<ContainerStyleProps> = ({
 };
 
 const styles = StyleSheet.create({
-  marginTop: { marginTop: 10 },
+  marginTop: { marginTop: 10, zIndex: 0 },
   sidePanel: {
     backgroundColor: '#222',
     padding: 20,

@@ -2,12 +2,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '@react-navigation/native';
 import { FunctionComponent } from 'react';
 import { Popable } from 'react-native-popable';
+import { ContainerStyleProps } from './Themed';
 
-const HelpIcon: FunctionComponent = () => {
+const HelpIcon: FunctionComponent<ContainerStyleProps> = ({ style }) => {
   const theme = useTheme();
   return (
     <Popable
-      wrapperStyle={{ alignSelf: 'center' }}
+      wrapperStyle={[style, { alignSelf: 'center' }]}
       action="hover"
       content={`Select the images for which you'd like to get the tags.
 
@@ -18,7 +19,7 @@ const HelpIcon: FunctionComponent = () => {
         Without the selection only the first image will be used for tag retrieval.
         `}
       position="bottom"
-      style={{ width: 500 }}
+      style={{ width: 350 }}
     >
       <Ionicons
         name="information-circle-outline"

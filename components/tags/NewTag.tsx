@@ -6,7 +6,7 @@ import { useAppSelector } from '../../store/store';
 import { prependTag } from '../../store/tagSlice';
 import { commonStyles, ContainerStyleProps } from '../Themed';
 
-const NewTag: FunctionComponent<ContainerStyleProps> = ({ containerStyle }) => {
+const NewTag: FunctionComponent<ContainerStyleProps> = ({ style }) => {
   const dispatch = useDispatch();
   const handlePrependTag = (tag: string) => {
     dispatch(prependTag(tag));
@@ -23,7 +23,7 @@ const NewTag: FunctionComponent<ContainerStyleProps> = ({ containerStyle }) => {
     }
   };
   return (
-    <View style={[containerStyle, styles.container]}>
+    <View style={[style, styles.container]}>
       <TextInput
         value={newTag}
         onChangeText={setNewTag}

@@ -4,6 +4,7 @@
  */
 
 import {
+  StyleProp,
   StyleSheet,
   Text as DefaultText,
   useColorScheme,
@@ -43,7 +44,7 @@ const commonStyles = StyleSheet.create({
     borderColor: '#ccc',
     color: '#ccc',
     backgroundColor: 'black',
-    borderRadius: 8,
+    borderRadius: 0,
     paddingHorizontal: 8,
     paddingVertical: 4,
   },
@@ -70,7 +71,7 @@ export function Text(props: TextProps) {
 // }
 
 interface ContainerStyleProps {
-  containerStyle?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export { ContainerStyleProps, commonStyles };

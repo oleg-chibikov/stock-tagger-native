@@ -11,7 +11,7 @@ import { ProgressLoader, ProgressState } from '../ProgressLoader';
 import { ContainerStyleProps } from '../Themed';
 
 const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
-  containerStyle,
+  style,
 }) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<
@@ -48,7 +48,7 @@ const MainSection: React.FunctionComponent<ContainerStyleProps> = ({
   }
 
   return (
-    <View style={containerStyle}>
+    <View style={style}>
       {loading ? (
         <ProgressLoader uploadProgress={uploadProgress} />
       ) : (

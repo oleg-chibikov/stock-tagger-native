@@ -9,9 +9,7 @@ import { removeTagAtIndex, setTags } from '../../store/tagSlice';
 import { ContainerStyleProps, Text } from '../Themed';
 import { Tag } from './Tag';
 
-const Tags: React.FunctionComponent<ContainerStyleProps> = ({
-  containerStyle,
-}) => {
+const Tags: React.FunctionComponent<ContainerStyleProps> = ({ style }) => {
   const tags = useAppSelector((state) => state.tag.tags);
   const dispatch = useDispatch();
 
@@ -37,7 +35,7 @@ const Tags: React.FunctionComponent<ContainerStyleProps> = ({
   };
 
   return (
-    <View style={[containerStyle, styles.container]}>
+    <View style={[style, styles.container]}>
       {Boolean(tags.length) && (
         <>
           <Text style={styles.title}>Tags</Text>

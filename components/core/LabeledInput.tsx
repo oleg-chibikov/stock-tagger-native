@@ -15,11 +15,11 @@ const LabeledInput: FunctionComponent<LabeledInputProps> = ({
   value,
   onChangeText,
   placeholder,
-  containerStyle,
+  style,
   labelWidth,
 }) => {
   return (
-    <View style={[commonStyles.inputContainer, containerStyle]}>
+    <View style={[commonStyles.inputContainer, style]}>
       <Text style={{ width: labelWidth }}>{label}:</Text>
       <TextInput
         style={commonStyles.input}
