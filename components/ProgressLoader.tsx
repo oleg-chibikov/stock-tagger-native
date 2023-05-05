@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import { View } from 'react-native';
 import * as Progress from 'react-native-progress';
 import { UploadOperation } from '../api/backendApi';
@@ -51,4 +51,5 @@ const ProgressLoader: FunctionComponent<ProgressLoadersProps> = ({
   );
 };
 
-export { ProgressState, ProgressLoader };
+export type { ProgressState };
+export { ProgressLoader };

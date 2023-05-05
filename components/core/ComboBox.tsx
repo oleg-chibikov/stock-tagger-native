@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   FlatList,
@@ -145,4 +145,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ComboBoxProps, ComboBoxItem, ComboBox };
+export type { ComboBoxProps, ComboBoxItem };
+export { ComboBox };
